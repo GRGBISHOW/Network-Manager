@@ -1,0 +1,16 @@
+{
+    "body": {
+        "id": 3,
+        "first_name": "Jhon",
+        "last_name": "Snow",
+        "middle_name": null,
+        "email": "example@gmail.com",
+        "image_url": null
+    },
+    "status": {
+        "message": "Okay",
+        "code": "ok",
+        "code_text": "ok"
+    }
+}
+
