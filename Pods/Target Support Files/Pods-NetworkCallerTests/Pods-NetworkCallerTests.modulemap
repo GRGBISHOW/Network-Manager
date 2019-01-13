@@ -1,6 +1,0 @@
-framework module Pods_NetworkCallerTests {
-  umbrella header "Pods-NetworkCallerTests-umbrella.h"
-
-  export *
-  module * { export * }
-}
