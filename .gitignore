@@ -8,6 +8,7 @@
 ## Xcode build files
 DerivedData/
 build/
+Pods/
 
 ## Xcode private settings
 *.pbxuser
