@@ -53,7 +53,7 @@ protocol ClientProtocol {
 }
 
 protocol Requestable {
-    func request<Response>(withPath path:String, method:Method) -> Single<Response>
+    func request<Response>(withPath path:String, method:Method) -> Reactive<SessionManager>
 }
 
 class NetWorkManager: Requestable {
@@ -69,8 +69,11 @@ class NetWorkManager: Requestable {
         manager = SessionConfiguration.getSessionManager(fromSessionType: type)
     }
     
-    func request(withPath path: String, method: Method) -> Observable<DataRequest> {
-        return manager.rx.request(method, getUrl(path: path))
+    func request(withPath path: String, method: Method) -> Observable<(SessionManager,Endpoint)> {
+        return Observable.create({ (observer) -> Disposable in
+          
+            
+        })
     }
     
     private func appendPath(toBaseUrl path: String) -> URL {
