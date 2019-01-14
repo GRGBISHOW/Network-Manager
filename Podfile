@@ -8,13 +8,13 @@ target 'NetworkCaller' do
   # Pods for NetworkCaller
  pod 'RxSwift'
  pod 'RxCocoa'
- pod 'Alamofire'
+ pod 'RxAlamofire'
   target 'NetworkCallerTests' do
     inherit! :search_paths
     # Pods for testing
     pod 'RxSwift'
     pod 'RxCocoa'
-    pod 'Alamofire'
+    pod 'RxAlamofire'
   end
 
   target 'NetworkCallerUITests' do

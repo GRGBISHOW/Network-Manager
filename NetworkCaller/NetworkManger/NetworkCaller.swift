@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 import Alamofire
 import RxCocoa
-
+import RxAlamofire
 extension Encodable {
     var dictionary: [String: Any]? {
         guard let data = try? JSONEncoder().encode(self) else { return nil }
@@ -52,12 +52,67 @@ protocol ClientProtocol {
     func request<Response>(_ endpoint: Endpoint<Response>) -> Single<Response>
 }
 
-class NetworkClient: ClientProtocol {
-    private let manager: Alamofire.SessionManager
-    private var baseURL = URL(string: AppUrl.BaseURL)!
+protocol Requestable {
+    func request<Response>(withPath path:String, method:Method) -> Single<Response>
+}
+
+class NetWorkManager: Requestable {
+    
+    private var manager: Alamofire.SessionManager
+    #if DEBUG
+    private let url = NetWorkManager.devURL
+    #elseif RELEASE
+    private let url = NetWorkManager.uatURL
+    #endif
     
     init(withSessionType type: SessionType = .defaultConfig) {
-     manager = SessionConfiguration.getSessionManager(fromSessionType: type)
+        manager = SessionConfiguration.getSessionManager(fromSessionType: type)
+    }
+    
+    func request(withPath path: String, method: Method) -> Observable<DataRequest> {
+        return manager.rx.request(method, getUrl(path: path))
+    }
+    
+    private func appendPath(toBaseUrl path: String) -> URL {
+        guard let url = URL(string: url) else {fatalError("Please provide valid url")}
+        return url.appendingPathComponent(path)
+    }
+    
+    private func getUrl(path: String) -> URL{
+        return path.contains("http") ? URL(string:path)! : appendPath(toBaseUrl: path)
+    }
+
+    
+    
+    
+}
+
+extension NetWorkManager {
+    fileprivate static var devURL = "https://google.com"
+    fileprivate static var uatURL = "https://google.com"
+    
+    enum BaseUrl {
+        static func set(devURl url: String) {
+            devURL = url
+        }
+        static func  set(uatURl url: String) {
+            uatURL = url
+        }
+    }
+}
+
+
+class NetworkClient: ClientProtocol {
+    private static let manager: Alamofire.SessionManager
+    
+    private var baseURL = URL(string: AppUrl.BaseURL)!
+    
+    
+    
+    @discardableResult func caller(withPath path:String, method:Method, sessonType:SessionType = .defaultConfig) -> Single<Response> {
+        
+        
+        
     }
     
      @discardableResult func request<Response>(_ endpoint: Endpoint<Response>) -> Single<Response> {
@@ -98,18 +153,25 @@ class NetworkClient: ClientProtocol {
 enum SessionType {
     case defaultConfig
     case ephemeral
-    case background
+    case background(String)
 }
 
 final class SessionConfiguration  {
+    private static let sharedDefaultInstance: Alamofire.SessionManager  = {
+        return Alamofire.SessionManager(configuration: URLSessionConfiguration.default)
+    }()
+    private static let sharedEphemeralInstance: Alamofire.SessionManager = {
+        return Alamofire.SessionManager(configuration: URLSessionConfiguration.ephemeral)
+    }()
+   
     static func getSessionManager(fromSessionType type: SessionType) -> Alamofire.SessionManager {
         switch type {
         case .defaultConfig:
-            return Alamofire.SessionManager(configuration: URLSessionConfiguration.default)
+            return sharedDefaultInstance
         case .ephemeral:
-            return Alamofire.SessionManager(configuration: URLSessionConfiguration.ephemeral)
-        case .background:
-            return Alamofire.SessionManager(configuration: URLSessionConfiguration.background(withIdentifier: "###"))
+            return sharedEphemeralInstance
+        case .background(let identifier):
+            return Alamofire.SessionManager(configuration: URLSessionConfiguration.background(withIdentifier: identifier))
         }
     }
 }
@@ -121,27 +183,15 @@ typealias Path = String
 typealias Method = HTTPMethod
 
 // MARK: Endpoint
-final class Endpoint<Response:Decodable> {
+class Endpoint {
     let method: Method
-    let path: Path
+    let url: URL
     let parameters: Parameters?
-    let parser: AnyParser<Response>!
-    init(method: Method = .get,
-         path: Path,
-         parameters: Parameters? = nil, parser: ParserType = .defaultParser) {
+   
+    init(method: Method, url: URL) {
         self.method = method
-        self.path = path
-        self.parameters = parameters
-        self.parser = Parser<Response>.getParser(fromType: parser)
-    }
-    
-    init(method: Method = .get,
-         path: Path,
-         parameters: Encodable, parser: ParserType = .defaultParser) {
-        self.method = method
-        self.path = path
-        self.parameters = parameters.dictionary
-        self.parser = Parser<Response>.getParser(fromType: parser)
+        self.url = url
+        
     }
 }
 
