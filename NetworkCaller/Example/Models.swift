@@ -11,15 +11,14 @@ import Foundation
 class ResponseStatus: Decodable {
     var code: String?
     var message: String?
-    var codeText: String?
-    var responseTimeStamp: String?
-    
     private enum CodingKeys: String, CodingKey {
         case code
-        case codeText = "code_text"
         case message
-        case responseTimeStamp = "response_timestamp"
     }
+}
+struct LoginRequest: Encodable {
+    var username: String
+    var password: String
 }
 
 class BaseResponse<T:Decodable>:Decodable {

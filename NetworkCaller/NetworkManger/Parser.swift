@@ -112,7 +112,10 @@ class DefaultResponseParser<ResponseType:Decodable>: ParserProtocol {
     }
 }
 
+
+
 enum NetworkError: Error {
+    case invalidURL
     case notConnectedToInternet
     case timeOut
     case cancelled
@@ -128,6 +131,8 @@ enum NetworkError: Error {
 extension NetworkError: LocalizedError  {
     public var errorDescription: String? {
         switch self {
+        case .invalidURL:
+            return NSLocalizedString("invalid_url", comment: "Invalid url")
         case .notConnectedToInternet :
             return NSLocalizedString("noConnection_error", comment: "No Internet")
         case .timeOut :

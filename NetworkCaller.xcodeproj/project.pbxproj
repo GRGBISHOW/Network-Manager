@@ -359,7 +359,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NetworkCallerTests/Pods-NetworkCallerTests-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-NetworkCallerTests/Pods-NetworkCallerTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAlamofire/RxAlamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
@@ -374,7 +374,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NetworkCallerTests/Pods-NetworkCallerTests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NetworkCallerTests/Pods-NetworkCallerTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		605270B41E08BC6259222165 /* [CP] Embed Pods Frameworks */ = {
@@ -383,7 +383,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NetworkCaller/Pods-NetworkCaller-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-NetworkCaller/Pods-NetworkCaller-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAlamofire/RxAlamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
@@ -398,7 +398,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NetworkCaller/Pods-NetworkCaller-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NetworkCaller/Pods-NetworkCaller-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8780A18440F47B3B02A93F53 /* [CP] Check Pods Manifest.lock */ = {
