@@ -116,7 +116,16 @@ class Endpoint {
     }
 }
 
-
+extension HTTPMethod{
+    var encodingType:ParameterEncoding{
+        switch self{
+        case .get:
+            return URLEncoding.default
+        default:
+            return JSONEncoding.default
+        }
+    }
+}
 
 
 
