@@ -15,8 +15,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var thirdparty: UIButton!
     
     @IBAction func loginAction(_ sender: Any) {
-        viewModel.login()
-        viewModel.getHeatMapData()
+        viewModel.getUserData()
+        //
     }
     
     @IBAction func thirdPartyAction(_ sender: Any) {
@@ -29,7 +29,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        viewModel = ViewModel(networkCaller: NetworkClient())
+        viewModel = ViewModel(networkCaller: NetworkClients.userDataService) // Should be injected from outside while initilizating view controller
         viewModel.profileObserver.subscribe(onNext: { profile in
             print(profile)
         }).disposed(by: disposebag)

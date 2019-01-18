@@ -8,31 +8,34 @@
 
 import Foundation
 import RxSwift
+import RxAlamofire
+import Alamofire
+
+
+enum NetworkClients {
+    static let userDataService = NetWorkManager().createClient(withPath: "user/2", method: .get)
+}
+
+
 class ViewModel {
-    private let loginCient: NetworkClient!
+    private var userDataService: Observable<NetworkClient>!
+  
+    
     private let disposeBag = DisposeBag()
-    var profileObserver = PublishSubject<UserProfile>()
+    var profileObserver = PublishSubject<User>()
     var errorMessage = PublishSubject<String>()
-   
-    init(networkCaller caller: NetworkClient) {
-        loginCient = caller
+    
+    init(networkCaller userDataService: Observable<NetworkClient>) {
+        self.userDataService = userDataService
     }
     
-    func login() {
-        loginCient.request(API.Auth.login(name: "example@gmail.com", password: "123456")).subscribe(onSuccess: {[weak self] (profile) in
-            //print(profile)
-            self?.profileObserver.onNext(profile)
-        }) {[weak self] (error) in
-            self?.errorMessage.onNext(error.localizedDescription)
-        }.disposed(by: disposeBag)
-    }
     
-    func getHeatMapData() {
-        loginCient.request(API.ThirdParty.getDateTimeData()).subscribe(onSuccess: {[weak self] (data) in
-            print(data)
-        }) {[weak self] (error) in
-            self?.errorMessage.onNext(error.localizedDescription)
-            }.disposed(by: disposeBag)
+    func getUserData() {
+        _ = userDataService.request().parse(toType: DataModel<User>.self).subscribe(onSuccess: { (data) in
+            print(data.data)
+        }) { (error) in
+            print(error.localizedDescription)
+        }
         
     }
 }
