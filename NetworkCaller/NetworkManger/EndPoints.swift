@@ -13,7 +13,7 @@ import RxAlamofire
 
 typealias RxResponse = (HTTPURLResponse, Data)
 extension ObservableType where E == NetworkClient {
-    func request(withParamerter parameter: Encodable?)  -> Observable<RxResponse>{
+    func request(withParamerter parameter: Encodable? = nil)  -> Observable<RxResponse>{
         return self.flatMap { (client) ->  Observable<RxResponse> in
             return client.manager.rx.request(client.endpoint.method, client.endpoint.url, parameters: parameter?.dictionary, encoding:URLEncoding.default , headers: nil).validate(statusCode: 200...300).responseData()
             }

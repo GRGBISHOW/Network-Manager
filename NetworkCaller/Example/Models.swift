@@ -16,6 +16,7 @@ class ResponseStatus: Decodable {
         case message
     }
 }
+struct NullResponse:Decodable {}
 struct LoginRequest: Encodable {
     var username: String
     var password: String
@@ -62,6 +63,32 @@ struct UserProfile: Decodable {
 }
 
 
+class BuildingDetail: Decodable {
+     var id: Int = 0
+     var name: String? = nil
+     var alias: String? = nil
+     var email: String? = nil
+     var website: String? = nil
+     var logoUrl: String? = nil
+     var buildingDescription: String? = nil
+     var longitude: Double? = nil
+     var latitude: Double? = nil
+     var timeZone: String? = nil
+    
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case alias
+        case email
+        case website
+        case logoUrl = "logo_url"
+        case buildingDescription = "description"
+        case longitude
+        case latitude
+        case timeZone = "timezone"
+    }
+    
+}
 
 struct DateTimeModel: Decodable {
     var time:String?

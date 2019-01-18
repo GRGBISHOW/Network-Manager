@@ -36,14 +36,14 @@ class NetWorkManager: ClientCreatable {
     }
     
     func createClient(withPath path: String, method: Method) -> Observable<NetworkClient> {
-        return Observable.create({[weak self] (observer) -> Disposable in
-            guard let slf = self else {return Disposables.create()}
-            if let url = URL(string: slf.url) {
-                observer.on(.next((slf.manager,Endpoint(method: method, url: slf.getUrl(fromUrl: url, path: path)))))
+        return Observable.create({(observer) -> Disposable in
+            //guard let slf = self else {return Disposables.create()}
+            if let url = URL(string: self.url) {
+                observer.on(.next((self.manager,Endpoint(method: method, url: self.getUrl(fromUrl: url, path: path)))))
+                observer.on(.completed)
             }else {
                 observer.on(.error(NetworkError.invalidURL))
             }
-            observer.on(.completed)
             return Disposables.create()
         })
     }
@@ -82,7 +82,7 @@ enum SessionType {
 
 final class SessionConfiguration  {
     private static let sharedDefaultInstance: Alamofire.SessionManager  = {
-        return Alamofire.SessionManager(configuration: URLSessionConfiguration.default)
+        return Alamofire.SessionManager.default
     }()
     private static let sharedEphemeralInstance: Alamofire.SessionManager = {
         return Alamofire.SessionManager(configuration: URLSessionConfiguration.ephemeral)

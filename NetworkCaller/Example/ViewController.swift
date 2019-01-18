@@ -16,11 +16,11 @@ class ViewController: UIViewController {
     
     @IBAction func loginAction(_ sender: Any) {
         viewModel.login()
-        //viewModel.getHeatMapData()
+        //
     }
     
     @IBAction func thirdPartyAction(_ sender: Any) {
-       
+       viewModel.getbuildingInfo()
     }
     
     
@@ -29,7 +29,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        viewModel = ViewModel(networkCaller: NetworkClients.loginClient)
+        viewModel = ViewModel(networkCaller: NetworkClients.loginClient, buildingService: NetworkClients.building)
         viewModel.profileObserver.subscribe(onNext: { profile in
             print(profile)
         }).disposed(by: disposebag)
