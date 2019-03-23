@@ -17,15 +17,15 @@ struct DataModel<T:Decodable>:Decodable {
 
 struct User: Decodable {
     var id: Int = 0
-    var firstName: String? = nil
-    var lastName: String? = nil
-    var imgUrl: String? = nil
+    var name: String? = nil
+    var year: Int = 0
+    var color: String? = nil
     
     private enum CodingKeys: String, CodingKey {
         case id
-        case firstName = "first_name"
-        case lastName = "last_name"
-        case imgUrl = "avatar"
+        case name
+        case year
+        case color
     }
 }
 
