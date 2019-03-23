@@ -33,6 +33,7 @@ class NetWorkManager: ClientCreatable {
     
     init(withSessionType type: SessionType = .defaultConfig) {
         manager = SessionConfiguration.getSessionManager(fromSessionType: type)
+        //Add Request retrier and adaptor here
     }
     
     func createClient(withPath path: String, method: Method) -> Observable<NetworkClient> {
