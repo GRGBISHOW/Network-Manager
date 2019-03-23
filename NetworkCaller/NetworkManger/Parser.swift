@@ -19,26 +19,7 @@ extension ObservableType where E == NetworkClient {
             }
     }
     
-    private func parse(error err: Error) throws {
-        switch err._code {
-        case NSURLErrorNotConnectedToInternet:
-            throw NetworkError.notConnectedToInternet
-        case NSURLErrorTimedOut:
-            throw NetworkError.timeOut
-        case NSURLErrorCancelled:
-            throw NetworkError.cancelled
-        case NSURLErrorBadURL:
-            throw NetworkError.badUrl
-        case NSURLErrorNetworkConnectionLost:
-            throw NetworkError.networkConnectionLost
-        case NSURLErrorResourceUnavailable:
-            throw NetworkError.networkResourceUnavailable
-        default :
-            print("data error")
-        }
-        
-        
-    }
+
     
 }
 
@@ -51,7 +32,7 @@ extension ObservableType where E == RxResponse {
                 return responseModel
             } catch let err {
                 print(err.localizedDescription)
-                throw err
+                throw err // You can parse the err by passing error to exception, You have to add the enum in exception
             }
         }).asSingle()
         

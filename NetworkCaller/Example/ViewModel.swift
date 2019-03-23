@@ -31,11 +31,11 @@ class ViewModel {
     
     
     func getUserData() {
-        _ = userDataService.request().parse(toType: DataModel<User>.self).subscribe(onSuccess: { (data) in
-            print(data.data)
+        _ = userDataService.request().parse(toType: DataModel<User>.self).subscribe(onSuccess: {[weak self] (model) in
+            print(model.data)
+            self?.profileObserver.onNext(model.data)
         }) { (error) in
             print(error.localizedDescription)
         }
-        
     }
 }
